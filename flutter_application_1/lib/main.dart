@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Navigation Over Screens',
+      title: '',
       theme: ThemeData(
         primaryColor: Colors.green,
       ),
@@ -17,16 +17,19 @@ class MyApp extends StatelessWidget {
       // Declare routes
       routes: {
         // Main initial route
-        '/': (context) => MainPage(),
-        // Second route
-        '/second': (context) => SecondPage(),
+        '/': (context) => homePage(),
+        '/explore': (context) => firstPage(),
+        '/learn': (context) => SecondPage(),
+        '/chat': (context) => thirdPage(),
+        '/profile': (context) => fourthPage(),
+        '/cropprediction': (context) => fifthPage(),
       },
       initialRoute: '/',
     );
   }
 }
 
-class MainPage extends StatelessWidget {
+class homePage extends StatelessWidget {
   get backgroundColor => null;
 
   @override
@@ -53,7 +56,115 @@ class MainPage extends StatelessWidget {
       );
 }
 
-class SecondPage extends StatelessWidget {
+class firstPage extends StatelessWidget {
+  get backgroundColor => null;
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text('Explore'),
+        ),
+        body: Container(
+          child: Container(
+            // Place as the child widget of a scaffold
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                    "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/backgrounds%2Fyusuf-evli-bVq6bh26H-Y-unsplash.jpg?alt=media&token=770e26c4-a42a-4675-b978-5c34226a04fb"),
+                fit: BoxFit.cover,
+              ),
+            ), // Place child here
+          ),
+        ),
+        extendBody: true,
+        bottomNavigationBar: BottomNavBarCurvedFb1(),
+      );
+}
+
+class secondPage extends StatelessWidget {
+  get backgroundColor => null;
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text('Explore'),
+        ),
+        body: Container(
+          child: Container(
+            // Place as the child widget of a scaffold
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                    "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/backgrounds%2Fyusuf-evli-bVq6bh26H-Y-unsplash.jpg?alt=media&token=770e26c4-a42a-4675-b978-5c34226a04fb"),
+                fit: BoxFit.cover,
+              ),
+            ), // Place child here
+          ),
+        ),
+        extendBody: true,
+        bottomNavigationBar: BottomNavBarCurvedFb1(),
+      );
+}
+
+class thirdPage extends StatelessWidget {
+  get backgroundColor => null;
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text('Explore'),
+        ),
+        body: Container(
+          child: Container(
+            // Place as the child widget of a scaffold
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                    "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/backgrounds%2Fyusuf-evli-bVq6bh26H-Y-unsplash.jpg?alt=media&token=770e26c4-a42a-4675-b978-5c34226a04fb"),
+                fit: BoxFit.cover,
+              ),
+            ), // Place child here
+          ),
+        ),
+        extendBody: true,
+        bottomNavigationBar: BottomNavBarCurvedFb1(),
+      );
+}
+
+class fourthPage extends StatelessWidget {
+  get backgroundColor => null;
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text('Explore'),
+        ),
+        body: Container(
+          child: Container(
+            // Place as the child widget of a scaffold
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                    "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/backgrounds%2Fyusuf-evli-bVq6bh26H-Y-unsplash.jpg?alt=media&token=770e26c4-a42a-4675-b978-5c34226a04fb"),
+                fit: BoxFit.cover,
+              ),
+            ), // Place child here
+          ),
+        ),
+        extendBody: true,
+        bottomNavigationBar: BottomNavBarCurvedFb1(),
+      );
+}
+
+class fifthPage extends StatelessWidget {
   get backgroundColor => null;
 
   @override
@@ -114,7 +225,7 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
               child: Icon(Icons.eco),
               elevation: 0.1,
               onPressed: () => {
-                Navigator.pushNamed(context, '/'),
+                Navigator.pushReplacementNamed(context, '/'),
               },
             ),
           ),
