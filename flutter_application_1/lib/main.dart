@@ -1,4 +1,8 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:chewie/chewie.dart';
+import 'package:video_player/video_player.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,7 +23,7 @@ class MyApp extends StatelessWidget {
         // Main initial route
         '/': (context) => homePage(),
         '/explore': (context) => firstPage(),
-        '/learn': (context) => SecondPage(),
+        '/learn': (context) => secondPage(),
         '/chat': (context) => thirdPage(),
         '/profile': (context) => fourthPage(),
         '/cropprediction': (context) => fifthPage(),
@@ -35,7 +39,7 @@ class homePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text('Learn'),
+          title: Text('Home'),
         ),
         body: Container(
           child: Container(
@@ -76,6 +80,7 @@ class firstPage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ), // Place child here
+            child: explore(),
           ),
         ),
         extendBody: true,
@@ -89,7 +94,7 @@ class secondPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text('Explore'),
+          title: Text('Learn'),
         ),
         body: Container(
           child: Container(
@@ -103,6 +108,7 @@ class secondPage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ), // Place child here
+            child: learn(),
           ),
         ),
         extendBody: true,
@@ -116,7 +122,7 @@ class thirdPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text('Explore'),
+          title: Text('Chat'),
         ),
         body: Container(
           child: Container(
@@ -143,7 +149,7 @@ class fourthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text('Explore'),
+          title: Text('Profile'),
         ),
         body: Container(
           child: Container(
@@ -170,7 +176,7 @@ class fifthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text('Explore'),
+          title: Text('Crop Recommendation'),
         ),
         body: Container(
           child: Container(
@@ -225,7 +231,7 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
               child: Icon(Icons.eco),
               elevation: 0.1,
               onPressed: () => {
-                Navigator.pushReplacementNamed(context, '/'),
+                Navigator.pushReplacementNamed(context, '/cropprediction'),
               },
             ),
           ),
@@ -239,7 +245,11 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
                   icon: Icons.explore,
                   selected: false,
                   onPressed: () => {
-                    Navigator.pushNamed(context, '/second'),
+                    setState(() {
+                      _selected:
+                      true;
+                    }),
+                    Navigator.pushReplacementNamed(context, '/explore'),
                   },
                   defaultColor: secondaryColor,
                   selectedColor: primaryColor,
@@ -248,7 +258,9 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
                   text: "Learn",
                   icon: Icons.book,
                   selected: false,
-                  onPressed: () {},
+                  onPressed: () => {
+                    Navigator.pushReplacementNamed(context, '/learn'),
+                  },
                   defaultColor: secondaryColor,
                   selectedColor: primaryColor,
                 ),
@@ -257,14 +269,18 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
                     text: "Contact",
                     icon: Icons.chat,
                     selected: false,
-                    onPressed: () {},
+                    onPressed: () => {
+                          Navigator.pushReplacementNamed(context, '/chat'),
+                        },
                     defaultColor: secondaryColor,
                     selectedColor: primaryColor),
                 NavBarIcon(
                   text: "Profile",
                   icon: Icons.person,
                   selected: false,
-                  onPressed: () => {},
+                  onPressed: () => {
+                    Navigator.pushReplacementNamed(context, '/profile'),
+                  },
                   selectedColor: primaryColor,
                   defaultColor: secondaryColor,
                 )
@@ -347,11 +363,263 @@ class NavBarIcon extends StatelessWidget {
           highlightColor: Colors.transparent,
           icon: Icon(
             icon,
-            size: 25,
+            size: 32,
             color: selected ? selectedColor : defaultColor,
           ),
         ),
       ],
+    );
+  }
+}
+
+class explore extends StatefulWidget {
+  const explore({Key? key}) : super(key: key);
+
+  @override
+  _explore createState() => _explore();
+}
+
+class _explore extends State<explore> {
+  List<Widget> cards = [
+    CardFb1(
+        text: "Minor Irrigation Scheme",
+        imageUrl:
+            "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
+        subtitle: "Scheme No. 13",
+        vidurl: "",
+        onPressed: () {}),
+    CardFb1(
+        text: "Land Development Scheme",
+        imageUrl:
+            "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Designer_re_5v95%201.png?alt=media&token=5d053bd8-d0ea-4635-abb6-52d87539b7ec",
+        subtitle: "Scheme No. 14",
+        vidurl: "",
+        onPressed: () {}),
+    CardFb1(
+        text: "National Agriculture Development Programme (NADP)",
+        imageUrl:
+            "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Accept_terms_re_lj38%201.png?alt=media&token=476b97fd-ba66-4f62-94a7-bce4be794f36",
+        subtitle: "Scheme No. 15",
+        vidurl: "",
+        onPressed: () {})
+  ];
+
+  final double carouselItemMargin = 16;
+
+  late PageController _pageController;
+  int _position = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 0, viewportFraction: .7);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView.builder(
+        controller: _pageController,
+        itemCount: cards.length,
+        onPageChanged: (int position) {
+          setState(() {
+            _position = position;
+          });
+        },
+        itemBuilder: (BuildContext context, int position) {
+          return imageSlider(position);
+        });
+  }
+
+  Widget imageSlider(int position) {
+    return AnimatedBuilder(
+      animation: _pageController,
+      builder: (BuildContext context, widget) {
+        return Container(
+          margin: EdgeInsets.all(carouselItemMargin),
+          child: Center(child: widget),
+        );
+      },
+      child: Container(
+        child: cards[position],
+      ),
+    );
+  }
+}
+
+class learn extends StatefulWidget {
+  const learn({Key? key}) : super(key: key);
+
+  @override
+  _learn createState() => _learn();
+}
+
+class _learn extends State<learn> {
+  List<Widget> cards = [
+    CardFb1(
+        text: "Hybrid Seed Production Basics",
+        imageUrl:
+            "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
+        subtitle: "",
+        vidurl: "https://www.youtube.com/watch?v=If8OspxeqjU",
+        onPressed: () {}),
+    CardFb1(
+        text: "Hybrid Maize seed Production",
+        imageUrl:
+            "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Designer_re_5v95%201.png?alt=media&token=5d053bd8-d0ea-4635-abb6-52d87539b7ec",
+        subtitle: "",
+        vidurl: "https://www.youtube.com/watch?v=YrggbFG1WeQ",
+        onPressed: () {}),
+    CardFb1(
+        text: "Hybrid Rice Seed Production",
+        imageUrl:
+            "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Accept_terms_re_lj38%201.png?alt=media&token=476b97fd-ba66-4f62-94a7-bce4be794f36",
+        subtitle: "",
+        vidurl: "https://www.youtube.com/watch?v=bKVKCc3QvCo",
+        onPressed: () {})
+  ];
+
+  final double carouselItemMargin = 16;
+
+  late PageController _pageController;
+  int _position = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 0, viewportFraction: .7);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView.builder(
+        controller: _pageController,
+        itemCount: cards.length,
+        onPageChanged: (int position) {
+          setState(() {
+            _position = position;
+          });
+        },
+        itemBuilder: (BuildContext context, int position) {
+          return imageSlider(position);
+        });
+  }
+
+  Widget imageSlider(int position) {
+    return AnimatedBuilder(
+      animation: _pageController,
+      builder: (BuildContext context, widget) {
+        return Container(
+          margin: EdgeInsets.all(carouselItemMargin),
+          child: Center(child: widget),
+        );
+      },
+      child: Container(
+        child: cards[position],
+      ),
+    );
+  }
+}
+
+class CardFb1 extends StatelessWidget {
+  final String text;
+  final String imageUrl;
+  final String subtitle;
+  final String vidurl;
+  final Function() onPressed;
+
+  const CardFb1(
+      {required this.text,
+      required this.imageUrl,
+      required this.subtitle,
+      required this.vidurl,
+      required this.onPressed,
+      Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => vid_play(
+              url: vidurl,
+            ),
+          ),
+        ),
+      },
+      child: Container(
+        width: 450,
+        height: 400,
+        padding: const EdgeInsets.all(30.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.5),
+          boxShadow: [
+            BoxShadow(
+                offset: const Offset(10, 20),
+                blurRadius: 10,
+                spreadRadius: 0,
+                color: Colors.grey.withOpacity(.05)),
+          ],
+        ),
+        child: Column(
+          children: [
+            Image.network(imageUrl, height: 190, fit: BoxFit.cover),
+            const Spacer(),
+            Text(text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28,
+                )),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              subtitle,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 12),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class vid_play extends StatelessWidget {
+  final String url;
+
+  const vid_play({
+    Key? key,
+    required this.url,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Chewie(
+            controller: ChewieController(
+              videoPlayerController: VideoPlayerController.network(
+                url,
+              ),
+              aspectRatio: 3 / 2,
+              autoInitialize: true,
+              looping: false,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
